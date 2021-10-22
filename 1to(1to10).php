@@ -5,19 +5,21 @@
 //jeżeli 9 - losuj od 1 do 9
 //jeżeli n - losuj od 1 do n    (n c <1;10>)
 
+############    sprawdzanie prawdopodobieństwa na podstawie losowania i leczenia wystąpień    ############
 $sum = array_fill(1,10,0);
 foreach( range(1,1000000) as $i ){
     $r = rand(1,rand(1,10));
     $sum[$r]++;
 }
 
-for( $x = 0, $denominator = 100; $denominator > 0; $denominator -= 10){//można zmiejszyć denominator i 100/denominator
+############    sprawdzanie dokładnego prawdopodobieństwa    ############
+for( $x = 0, $denominator = 100; $denominator > 0; $denominator -= 10){
     $x = $x + 1/$denominator;
     $precise []= $x;
 }
 $precise []= 0; //klucze są od 1 do 10
 
-// porównianie tablic
+############    przygotowanie tablic do porównania    ############
 
 $sum = array_map(
     fn($x) => $x/10000 . '%',
@@ -30,9 +32,13 @@ $precise = array_map(
     $precise
 );
 
+############    porównianie prawdopodobieństw    ############
+
 foreach( range(1,10) as $i ){
     echo $sum[$i] , "\t ~ \t" , $precise[$i] . PHP_EOL;
 }
+
+############    info    ############
 
 echo <<<E
     
