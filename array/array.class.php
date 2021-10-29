@@ -112,9 +112,25 @@
             }
             return true;
         }
+        
+        public function odd() :bool
+        {
+            foreach( $this->array as $value ){
+                if( $value % 2 == 0 ) return false;
+            }
+            return true;
+        }
+        public function even() :bool
+        {
+            foreach( $this->array as $value ){
+                if( $value & 1 ) return false;
+            }
+            return true;
+        }
     }
     
     $a = new Arrays(5,'5',5,5,5);
+    $b = new Arrays(8,true,['x'],1,!false,'foo',![]);
     
     echo $a , PHP_EOL;
     
@@ -123,8 +139,11 @@
         , $a -> ascending()         ? 'T/' : 'F/'
         , $a -> ascending(true)     ? 'T/' : 'F/'
         , $a -> descending()        ? 'T/' : 'F/'
-        , $a -> descending(true)    ? 'T' : 'F' , PHP_EOL; 
+        , $a -> descending(true)    ? 'T' : 'F'
+        , PHP_EOL; 
+    echo 'Are all values odd/even?'
+        , $a -> odd()   ? 'T/' : 'F/'
+        , $a -> even()  ? 'T' : 'F'
+        , PHP_EOL;
     echo 'simple && sameType = same' , PHP_EOL;
     echo $a -> simple() ? 'T' : 'F' , ' && ' , $a -> sameType() ? 'T' : 'F' , ' = ' , $a -> same() ? 'T' : 'F'; 
-    
-
