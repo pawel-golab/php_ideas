@@ -1,16 +1,16 @@
 <?php
     Class Arrays
     {
-        private $array = [];
+        private $Aarray = [];
         
         public function __construct(...$values)
         {
-            $this->array = $values;
+            $this->Array = $values;
         }
         public function __toString()
         {
             $output = '';
-            foreach( $this->array as $i => $value ){
+            foreach( $this->Array as $i => $value ){
                 $type = match(gettype($value)){
                     'bool'      => 'b',
                     'integer'   => 'i',
@@ -21,14 +21,26 @@
                     default     => 'x'
                     
                 };
-                $output .= "- $i => $value ($type)\t"; 
+                $output .= "$i => $value ($type)\t"; 
             }
             return $output;
+        }
+        public function __call( $name, $arguments )
+        {
+            try{
+                return call_user_func_array( 'array_' . $name , [$this->Array, ...$arguments] );
+            }
+            catch(TypeError $e){
+                return call_user_func_array( $name , [$this->Array, ...$arguments] );
+            }
+            /*finally{
+                return false;
+            }*/
         }
         
         public function every($searched) :bool
         {
-            foreach( $this->array as $value ){
+            foreach( $this->Array as $value ){
                 if( $value != $searched ) return false;
             }        
             return true;
@@ -36,7 +48,7 @@
         
         public function simple() :bool
         {
-            $array = $this->array;
+            $array = $this->Array;
             $searched = array_pop($array);
             foreach( $array as $value ){
                 if( $value != $searched ) return false;
@@ -46,7 +58,7 @@
     
         public function same() :bool
         {
-            $array = $this->array;
+            $array = $this->Array;
             $searched = array_pop($array);
             foreach( $array as $value ){
                 if( $value !== $searched ) return false;
@@ -56,7 +68,7 @@
     
         public function sameType() :bool
         {
-            $array = $this->array;
+            $array = $this->Array;
             $searched = gettype(array_pop($array));
             foreach( $array as $value ){
                 if( gettype($value) != $searched ) return false;
@@ -69,7 +81,7 @@
         {
             if($nondescending) return $this->nondescending();
             
-            $array = $this->array;
+            $array = $this->Array;
             $searched = gettype(array_pop($array));
             foreach( $array as $value ){
                 if( $value < $searched ) return false;
@@ -82,7 +94,7 @@
         {
             if($nonascending) return $this->nonascending();
             
-            $array = $this->array;
+            $array = $this->Array;
             $searched = gettype(array_pop($array));
             foreach( $array as $value ){
                 if( $value > $searched ) return false;
@@ -93,7 +105,7 @@
         
         public function nonascending() :bool
         {
-            $array = $this->array;
+            $array = $this->Array;
             $searched = gettype(array_pop($array));
             foreach( $array as $value ){
                 if( $value >= $searched ) return false;
@@ -104,7 +116,7 @@
         
         public function nondescending() :bool
         {
-            $array = $this->array;
+            $array = $this->Array;
             $searched = gettype(array_pop($array));
             foreach( $array as $value ){
                 if( $value <= $searched ) return false;
@@ -115,14 +127,14 @@
         
         public function odd() :bool
         {
-            foreach( $this->array as $value ){
+            foreach( $this->Array as $value ){
                 if( $value % 2 == 0 ) return false;
             }
             return true;
         }
         public function even() :bool
         {
-            foreach( $this->array as $value ){
+            foreach( $this->Array as $value ){
                 if( $value & 1 ) return false;
             }
             return true;
@@ -146,4 +158,5 @@
         , $a -> even()  ? 'T' : 'F'
         , PHP_EOL;
     echo 'simple && sameType = same' , PHP_EOL;
-    echo $a -> simple() ? 'T' : 'F' , ' && ' , $a -> sameType() ? 'T' : 'F' , ' = ' , $a -> same() ? 'T' : 'F'; 
+    echo $a -> simple() ? 'T' : 'F' , ' && ' , $a -> sameType() ? 'T' : 'F' , ' = ' , $a -> same() ? 'T' : 'F', PHP_EOL;
+    echo 'suma: ' , $a->sum();
