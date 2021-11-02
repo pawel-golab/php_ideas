@@ -12,7 +12,7 @@
             $output = '';
             foreach( $this->Array as $i => $value ){
                 $type = match(gettype($value)){
-                    'bool'      => 'b',
+                    'boolean'      => 'b',
                     'integer'   => 'i',
                     'float'     => 'f',
                     'string'    => 's',
@@ -21,7 +21,10 @@
                     default     => 'x'
                     
                 };
-                $output .= "$i => $value ($type)\t"; 
+                if( $type == 'A' )
+                    $output .= "$i => [?]\t";
+                else
+                    $output .= "$i => $value ($type)\t"; 
             }
             return $output;
         }
@@ -33,9 +36,9 @@
             catch(TypeError $e){
                 return call_user_func_array( $name , [$this->Array, ...$arguments] );
             }
-            /*finally{
+            finally{
                 return false;
-            }*/
+            }
         }
         
         public function every($searched) :bool
@@ -139,12 +142,32 @@
             }
             return true;
         }
+        public function arrayType() :string{
+            $indexed = 0;
+            $associative = 0;
+            
+            foreach( $this->Array as $key => $value ){
+                if(gettype($key) == 'integer')
+                    $indexed++;
+                else
+                    $associative++;
+                    
+                if($indexed > 0 && $associative > 0)
+                    return 'mixed';
+            }
+            if($indexed > 0) return 'indexed'; return 'assiciative';
+        }
+        public function type() :string{
+            //funkja zwracająca jakiego typu są wartości w tablicy
+        }
     }
     
     $a = new Arrays(5,'5',5,5,5);
-    $b = new Arrays(8,true,['x'],1,!false,'foo',![]);
+    $b = new Arrays();
+    $b->Array = [1 => 8, '2' => true, 'x' => ['x'], 0=> 1, !false, 'foo',![]];
     
-    echo $a , PHP_EOL;
+    echo "a[] = $a" , PHP_EOL;
+    echo "b[] = $b" , PHP_EOL;
     
     echo 'Every element is equal to 5? ' , $a -> every(5) ? 'T' : 'F' , PHP_EOL;
     echo 'Are array values in ascending/descending/nonascending/nondescending order? '
@@ -160,3 +183,5 @@
     echo 'simple && sameType = same' , PHP_EOL;
     echo $a -> simple() ? 'T' : 'F' , ' && ' , $a -> sameType() ? 'T' : 'F' , ' = ' , $a -> same() ? 'T' : 'F', PHP_EOL;
     echo 'suma: ' , $a->sum();
+    echo 'typ tablicy a, b: ', $a->arrayType(), ' ', $b->arrayType();
+    
