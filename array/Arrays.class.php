@@ -1,7 +1,5 @@
 <?php
 
-Class ArraysException extends Exception{};
-
 Class Arrays
 {
     public \Is $is;
@@ -31,7 +29,7 @@ Class Arrays
             if( $type == 'A' )
                 $output .= "$i => [?]\t";
             else
-                $output .= "$i => $value ($type)\t"; 
+                $output .= "$i => $value ($type)\t";
         }
         return $output;
     }
@@ -51,7 +49,7 @@ Class Arrays
     {
         return $this->Array[$offset] ?? 0;
     }
-    
+
     public function arrayType() :string
     {
         $indexed = 0;
