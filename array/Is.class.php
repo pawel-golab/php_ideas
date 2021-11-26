@@ -2,7 +2,7 @@
 
 Class Is
 {
-    public $Array;
+    public array $Array;
 
     public function __construct( &$array ) //$array = Arrays->Array (umożliwia zapisywanie do innej klasy)
     {

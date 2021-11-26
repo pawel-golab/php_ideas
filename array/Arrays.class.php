@@ -4,20 +4,22 @@ Class ArraysException extends Exception{};
 
 Class Arrays
 {
-    public $is;
-    public $Array = [];
+    public \Is $is;
+    public \Each $each;
+    public array $Array;
 
     public function __construct(...$values)
     {
         $this->Array = $values;
-        // $this->is = new Is($this->Array);
+        $this->is = new Is($this->Array);
+        $this->each = new Each($this->Array);
     }
     public function __toString()
     {
         $output = '';
         foreach( $this->Array as $i => $value ){
             $type = match(gettype($value)){
-                'boolean'      => 'b',
+                'boolean'   => 'b',
                 'integer'   => 'i',
                 'double'    => 'f',
                 'string'    => 's',
@@ -78,122 +80,4 @@ Class Arrays
 
         return $searched;
     }
-    
-    public function add( mixed $addend ) :void
-    {
-        if( $addend == 0 )
-            return;
-            
-        $this->Array = array_map(
-            fn($val) => $val + $addend, 
-            $this->Array
-        );
-    }    
-    public function sub( mixed $subtrahent ) :void
-    {
-        if( $subtrahent == 0 )
-            return;
-            
-        $this->Array = array_map(
-            fn($val) => $val - $subtrahent, 
-            $this->Array
-        );
-    }
-    public function mul( mixed $multiplier ) :void
-    {
-        if( $multiplier == 0 ) {
-            $this->Array = array_fill( 0, count($this->Array), 0 );
-            return;
-        }
-        if( $multiplier == 1 )
-            return;
-            
-        $this->Array = array_map(
-            fn($val) => $val * $multiplier, 
-            $this->Array
-        );
-    }
-    public function div( mixed $divisor ) :void
-    {
-        if( $divisor == 0 ) {
-            throw new ArraysException("Division by 0");
-            return;
-        }
-        if( $divisor == 1 )
-            return;
-            
-        $this->Array = array_map(
-            fn($val) => $val / $divisor, 
-            $this->Array
-        );
-    }
-    public function pow( mixed $power ) :void
-    {
-        if( $power == 0 ) {
-            $this->Array = array_fill( 0, count($this->Array), 1 );
-            return;
-        }
-        if( $power == 1 )
-            return;
-            
-        $this->Array = array_map(
-            fn($val) => $val ** $power, 
-            $this->Array
-        );
-    }
-    public function mod( mixed $modulus ) :void
-    {
-        if( $modulus == 0 ) {
-            throw new ArraysException("Division by 0");
-            return;
-        }
-        if( $modulus == 1 )
-            return;
-            
-        $this->Array = array_map(
-            fn($val) => $val % $modulus, 
-            $this->Array
-        );
-    }
-    public function comp() :void //complement?
-    {
-        $this->Array = array_map(
-            fn($val) => 10 ** ceil(log10($val)) - $val, //(int)ceil... aby zwracany typ był poprawny
-            $this->Array
-        );
-    }
-    public function sqrt() :void
-    {
-        $this->Array = array_map(
-            fn($val) => sqrt($val), 
-            $this->Array
-        );
-    }
 }
-
-/*$a = new Arrays(6,12,0,42);
-echo "\$a[] =\t\t$a" . PHP_EOL;
-
-$a->add(3);
-echo "\$a->add(3) =\t$a" . PHP_EOL;
-
-$a->sub(6);
-echo "\$a->sub(6) =\t$a" . PHP_EOL;
-
-$a->mul(2);
-echo "\$a->mul(2) =\t$a" . PHP_EOL;
-
-$a->div(3);
-echo "\$a->div(3) =\t$a" . PHP_EOL;
-
-$a->pow(4);
-echo "\$a->pow(2) =\t$a" . PHP_EOL;
-
-$a->mod(10);
-echo "\$a->mod(10) =\t$a" . PHP_EOL;
-
-$a->comp();
-echo "\$a->comp() =\t$a" . PHP_EOL;
-
-$a->sqrt();
-echo "\$a->sqrt() =\t$a" . PHP_EOL;*/
