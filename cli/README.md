@@ -1,6 +1,10 @@
 <ul>
     <li><h2>CMD class</h2></li>
     <ul>
-        <li><h3>displayList method</h3></li>
+        <li><h3>displayList( array $list, array $bullet )</h3></li>
+        <ul>
+            $list - list to be displayed
+            $bullet - definition of list punctors
+        </ul>
     </ul>
 </ul>
