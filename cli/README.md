@@ -1,3 +1,3 @@
 <ul>
-  <li><h1>CMD class</h1></li>
+  <li><h2>CMD class</h2></li>
 </ul>
