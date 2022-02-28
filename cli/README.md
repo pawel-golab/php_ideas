@@ -10,8 +10,8 @@
             $bullet jest tablicą zwierające dwuelementowe tablice: [ [punktor, ?flagi], [punktor, ?flagi], ... ]<br>
             Każda tablica definiuje wygląd punktora dla następnego zagnieżdżenia, np.:<br>
             <code>displayList( [1,2,[3,4],5,6], [ ['>'], ['-'] ] );</code><br>
+            <i>Zauważ, że flagi nie zostały zapisane flagi jako drugi element podtablic</i><br>
             Wyświetli:<br>
-            <i>Zauważ, że flagi nie zostały zapisane flagi jako drugi element podtablic</i>
             <pre>
 > 1
 > 2
