@@ -1,4 +1,30 @@
 <?php
+	/* displayList( ['x','y','z'], [[1,ITERATE]] )
+		1 x
+		2 y
+		3 z
+	   displayList( ['a','b','c'], [[21,ITERATE]])
+	   	21 a
+		22 b
+		23 c
+	*/
+	define( 'ITERATE', 1 );
+	/* displayList( ['k',['l','m'],'n' ], [['-',DUPLICATE]] )
+		- k
+			-- l
+			-- m
+		- n
+		//works only if [,DUPLICATE] is last argument: ([ ['-',DUPLICATE], [1,ITERATE] ]) won't work
+	*/
+	define( 'DUPLICATE', 2 );
+	/* displayList( ['o',['p','q'],'r' ], [['#',INHERIT],[1,ITERATE]] )
+		# o
+			#.1 p
+			#.2 q
+		# r
+	*/
+	define( 'INHERIT', 4 );
+
 	/**
 	 * Class created to modify console output
 	 */
@@ -210,14 +236,15 @@
 		//	-- coś.1
 		//	-- coś.2
 		// - coś2
-		 
+		// if(!key_exists($depth,$bullet)) => check if last_bullet has DUPLICATE flag
+
 		/**
 		 * Display array as ordered/unordered list
 		 * 
 		 * @param array $list array to be printed
-		 * @param array[mixed,?bool] $bullet[0] - symbol of each list element, $bullet[1] determines if list is ordered ($bullet[0] will be incremented if $bullet[1] is true)
+		 * @param array[mixed,?bool] $bullet $bullet[0] - bullet symbol, $bullet[1] determines if list is ordered ($bullet[0] will be incremented if $bullet[1] is true)
 		 */
-		public function displayList( array $list, array $bullet = [[1,true,'.'],['a',true],'>'] ) :void
+		public function displayList( array $list, array $bullet = [ [1,ITERATE], ['a',ITERATE], '>' ] ) :void
 		{
 			$last_bullet = $bullet[ array_key_last($bullet) ];	//[count($bullet)-1] //should be used on lists (incremented arrays)
 
@@ -236,14 +263,33 @@
 					else
 					{
 
-						if( key_exists( $depth, $bullet ) )
-							$current_bullet = &$bullet[$depth];
+						if( key_exists( $depth, $bullet ) )		// punktor dla danego zagłębienia został zdefiniowany (np.: $bullet = [1,'a','>']; dla 2 prawda, dla 4 fałsz)
+						{
+							if( isset($bullet[1]) && ($bullet[1] & 1) )	//ITERABLE
+								$current_bullet = &$bullet[$depth];		//& - for iterating
+							else
+								$current_bullet = $bullet[$depth];
+						}
 						else
-							$current_bullet = &$last_bullet;
+						{
+							$safe_last_bullet = $last_bullet;	// constant and non-reference
 
+							if( isset($last_bullet[1]) && ($last_bullet[1] & 1) )
+								$current_bullet = &$last_bullet;	//& - for iterating
+
+							if( isset($last_bullet[1]) && ($last_bullet[1] & 2) ) //TODO: naprawić ITERATE|DUPLICATE
+								$current_bullet = [$last_bullet[0] . $last_bullet[0], $last_bullet[1]];
+								//zagnieżdżanie np. -
+								//	- jeden
+								//		-- podjeden 1
+								//		-- podjeden 2
+								//	- dwa
+
+							else $current_bullet = $last_bullet;
+						}
 						echo $current_bullet[0], ' ', $element, PHP_EOL;
 
-						if( !empty($current_bullet[1]) )	//iterate list element number //!empty(x) => isset(x) && x == true 
+						if( isset($current_bullet[1]) && ($current_bullet[1] & 1) )	//iterate list element number // !empty(x) => isset(x) && x == true 
 							$current_bullet[0]++;
 					}
 				}
@@ -270,5 +316,9 @@
 	echo PHP_EOL, '->displayTitle( "Lorem ipsum", "~", 10, 40, "blue", "bold" ):', PHP_EOL;
 	$cmd->displayTitle('Lorem ipsum dolor sit amet consectetur adipisicing elit.', '~', 10, 40, 'blue', 'bold'); 
 
-	echo PHP_EOL, $cmd->displayList(['jeden','dwa','trzy','cztery',['a','b',['!','@',[99,98,97,['A','B']]],'c',['+','-']],'pięć']);
+	echo PHP_EOL, $cmd->displayList(
+		['jeden','dwa','trzy','cztery',['a','b',['!','@',[99,98,97,['A','B',['C','D']]]],'c',['+','-']],'pięć'],
+		//TODO: trzecie nawiasty [] są dwa razy otwierane (['!','@' ...],'c',[...]) przez co leczenie jest od nowa
+		[ [1,ITERATE], ['a',ITERATE], ['->',DUPLICATE] ]
+	);
 ?>
