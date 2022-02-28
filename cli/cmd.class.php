@@ -221,4 +221,3 @@
 
 	echo PHP_EOL, '->displayTitle( "Lorem ipsum", "~", 10, 40, "blue", "bold" ):', PHP_EOL;
 	$cmd->displayTitle('Lorem ipsum dolor sit amet consectetur adipisicing elit.', '~', 10, 40, 'blue', 'bold'); 
-?>
