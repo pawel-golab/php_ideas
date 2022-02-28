@@ -204,6 +204,54 @@
 				$this->displayLine($char[4], $marginLen );
 			}
 		}
+
+		//TODO: duplicate list bullet
+		// - coś
+		//	-- coś.1
+		//	-- coś.2
+		// - coś2
+		 
+		/**
+		 * Display array as ordered/unordered list
+		 * 
+		 * @param array $list array to be printed
+		 * @param array[mixed,?bool] $bullet[0] - symbol of each list element, $bullet[1] determines if list is ordered ($bullet[0] will be incremented if $bullet[1] is true)
+		 */
+		public function displayList( array $list, array $bullet = [[1,true,'.'],['a',true],'>'] ) :void
+		{
+			$last_bullet = $bullet[ array_key_last($bullet) ];	//[count($bullet)-1] //should be used on lists (incremented arrays)
+
+			$recursive = function( $list, $depth ) use ( $bullet, $last_bullet, &$recursive )
+			{
+				foreach ( $list as $key => $element )
+				{
+					for( $i = 0; $i < $depth; $i++ )
+						echo "\t";
+
+					if( is_array($element) )
+					{
+						echo PHP_EOL;
+						$recursive( $element, $depth+1 );
+					}
+					else
+					{
+
+						if( key_exists( $depth, $bullet ) )
+							$current_bullet = &$bullet[$depth];
+						else
+							$current_bullet = &$last_bullet;
+
+						echo $current_bullet[0], ' ', $element, PHP_EOL;
+
+						if( !empty($current_bullet[1]) )	//iterate list element number //!empty(x) => isset(x) && x == true 
+							$current_bullet[0]++;
+					}
+				}
+			};
+
+			$recursive( $list, 0 );
+			
+		}
 	}
 	$cmd = new CMD();
 
@@ -221,3 +269,6 @@
 
 	echo PHP_EOL, '->displayTitle( "Lorem ipsum", "~", 10, 40, "blue", "bold" ):', PHP_EOL;
 	$cmd->displayTitle('Lorem ipsum dolor sit amet consectetur adipisicing elit.', '~', 10, 40, 'blue', 'bold'); 
+
+	echo PHP_EOL, $cmd->displayList(['jeden','dwa','trzy','cztery',['a','b',['!','@',[99,98,97,['A','B']]],'c',['+','-']],'pięć']);
+?>
