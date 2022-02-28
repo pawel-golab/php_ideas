@@ -2,10 +2,10 @@
     <li><h2>CMD class</h2></li>
     <ul>
         <li><h3>displayList( array $list, array $bullet )</h3></li>
-        <p> <b>args:</b>
+        <p> <b>args:</b> <ul>
             $list - list to be displayed<br>
             $bullet - definition of list punctors
-        </p>
+        </ul> </p>
         <p>
             $bullet is array which countains two element arrays: [ [punctor, flags], [punctor, flags] ]
     </ul>
