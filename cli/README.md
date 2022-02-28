@@ -11,11 +11,16 @@
             Każda tablica definiuje wygląd punktora dla następnego zagnieżdżenia, np.:<br>
             <code>displayList( [1,2,[3,4],5,6], [ ['>'], ['-'] ] );</code><br>
             Wyświetli:
-            <pre>> 1
-            > 2
-                - 3
-                - 4
-            > 5
-            > 6</pre>
+            <pre>
+> 1
+> 2
+    - 3
+    - 4
+> 5
+> 6</pre></p>
+        <p>
+            <i>Zauważ, że flagi nie zostały zapisane</i><br>
+            Dostępne flagi:
+        </p>
     </ul>
 </ul>
