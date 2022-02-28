@@ -1,12 +1,23 @@
 <ul>
-    <li><h2>CMD class</h2></li>
+    <li><h2>klasa CMD</h2></li>
     <ul>
         <li><h3>displayList( array $list, array $bullet )</h3></li>
-        <p> <b>args:</b> <ul>
-            $list - list to be displayed<br>
-            $bullet - definition of list punctors
+        <p> <b>Argumenty:</b> <ul>
+            $list - lista do wyświetlenia<br>
+            $bullet - definicja punktorów listy
         </ul> </p>
         <p>
-            $bullet is array which countains two element arrays: [ [punctor, flags], [punctor, flags] ]
+            $bullet jest tablicą zwierające dwuelementowe tablice: [ [punktor, ?flagi], [punktor, ?flagi], ... ]<br>
+            Każda tablica definiuje wygląd punktora dla następnego zagnieżdżenia, np.:<br>
+            displayList( [1,2,[3,4],5,6], [ ['>'], ['-'] ] );<br>
+            Wyświetli:
+            <pre>
+> 1
+> 2
+    - 3
+    - 4
+> 5
+> 6
+            </pre>
     </ul>
 </ul>
