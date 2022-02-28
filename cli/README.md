@@ -9,15 +9,13 @@
         <p>
             $bullet jest tablicą zwierające dwuelementowe tablice: [ [punktor, ?flagi], [punktor, ?flagi], ... ]<br>
             Każda tablica definiuje wygląd punktora dla następnego zagnieżdżenia, np.:<br>
-            displayList( [1,2,[3,4],5,6], [ ['>'], ['-'] ] );<br>
+            <code>displayList( [1,2,[3,4],5,6], [ ['>'], ['-'] ] );</code><br>
             Wyświetli:
-            <pre>
-> 1
-> 2
-    - 3
-    - 4
-> 5
-> 6
-            </pre>
+            <pre>> 1
+            > 2
+                - 3
+                - 4
+            > 5
+            > 6</pre>
     </ul>
 </ul>
