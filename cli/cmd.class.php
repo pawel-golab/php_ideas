@@ -244,8 +244,9 @@
 		 * @param array $list array to be printed
 		 * @param array[mixed,?bool] $bullet $bullet[0] - bullet symbol, $bullet[1] determines if list is ordered ($bullet[0] will be incremented if $bullet[1] is true)
 		 */
-		public function displayList( array $list, array $bullet = [ [1,ITERATE], ['a',ITERATE], '>' ] ) :void
+		public function displayList( array $list, ...$bullet) :void
 		{
+			if( empty($bullet) ) $bullet = [ '-', 0 ];
 			$last_bullet = $bullet[ array_key_last($bullet) ];	//[count($bullet)-1] //should be used on lists (incremented arrays)
 
 			$recursive = function( $list, $depth ) use ( $bullet, $last_bullet, &$recursive )
@@ -263,7 +264,7 @@
 					else
 					{
 
-						if( key_exists( $depth, $bullet ) )		// punktor dla danego zagłębienia został zdefiniowany (np.: $bullet = [1,'a','>']; dla 2 prawda, dla 4 fałsz)
+						if( key_exists( $depth, $bullet ) )		// punktor dla danego zgnieżdżenia został zdefiniowany (np.: $bullet = [1,'a','>']; dla 2 prawda, dla 4 fałsz)
 						{
 							if( isset($bullet[1]) && ($bullet[1] & 1) )	//ITERABLE
 								$current_bullet = &$bullet[$depth];		//& - for iterating
@@ -272,19 +273,30 @@
 						}
 						else
 						{
+							//TODO PRZENIEŚĆ PONIŻSZE FUNKCJE TAKŻE POWYŻEJ
 							$safe_last_bullet = $last_bullet;	// constant and non-reference
 
-							if( isset($last_bullet[1]) && ($last_bullet[1] & 1) )
-								$current_bullet = &$last_bullet;	//& - for iterating
+							//FLAGI
+							if( isset($last_bullet[1]) )
+							{
+								//ITERABLE
+								if( $last_bullet[1] & 1 )
+									$current_bullet = &$last_bullet;	//& - for iterating
+								//DUPLICATE
+								if( $last_bullet[1] & 2 )
+									$current_bullet = [$last_bullet[0] . $last_bullet[0], $last_bullet[1]];
+							}
 
-							if( isset($last_bullet[1]) && ($last_bullet[1] & 2) ) //TODO: naprawić ITERATE|DUPLICATE
-								$current_bullet = [$last_bullet[0] . $last_bullet[0], $last_bullet[1]];
-								//zagnieżdżanie np. -
-								//	- jeden
-								//		-- podjeden 1
-								//		-- podjeden 2
-								//	- dwa
+							//FLAGI "od rodzica"
+							//TODO: podzielieć numery dla flag i flag "od rodziców" na pół (np. do 255 flagi a powyżej dla rodziców), wtedy można dodać dodatkwowego ifa, żeby niepotzebie if z issetem się wykonywał 
+							if( isset($parent_bullet[1]) ) //TODO: naprawić ITERATE|DUPLICATE oraz ITERATE|INHERIT
+							{
+								//INHERIT
+								if( $parent_bullet[1] & 4 )
+									//TODO: SEPERATOR
+									$current_bullet = $parent_bullet[0] . '.' . $last_bullet;  
 
+							}
 							else $current_bullet = $last_bullet;
 						}
 						echo $current_bullet[0], ' ', $element, PHP_EOL;
@@ -292,6 +304,8 @@
 						if( isset($current_bullet[1]) && ($current_bullet[1] & 1) )	//iterate list element number // !empty(x) => isset(x) && x == true 
 							$current_bullet[0]++;
 					}
+					
+					$parent_bullet = key_exists($depth, $bullet) ? $bullet[$depth] : $last_bullet;
 				}
 			};
 
@@ -319,6 +333,6 @@
 	echo PHP_EOL, $cmd->displayList(
 		['jeden','dwa','trzy','cztery',['a','b',['!','@',[99,98,97,['A','B',['C','D']]]],'c',['+','-']],'pięć'],
 		//TODO: trzecie nawiasty [] są dwa razy otwierane (['!','@' ...],'c',[...]) przez co leczenie jest od nowa
-		[ [1,ITERATE], ['a',ITERATE], ['->',DUPLICATE] ]
+		[1,ITERATE], ['a',ITERATE], ['->',DUPLICATE]
 	);
 ?>
