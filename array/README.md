@@ -53,6 +53,7 @@ umożliwia obliczenie pierwiastka *$x*-tego stopnia dla każdego elementu tablic
 ```php
 $a = new Arrays(8,64,8000);
 $a->each->rt(3);
+```
 * -> sqrt()<br>
 umożliwia obliczenie pierwiastka kwadratowego dla każdego elementu tablicy
 ```php
