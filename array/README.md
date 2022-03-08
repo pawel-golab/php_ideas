@@ -1,4 +1,4 @@
-# Konstruktor
+# Tworzenie obiektu
 * "Deklaracja" + przypisanie
 ```php
 // *lista - tablica w której pierwszy element ma indeks 0, a kazy kolejny element ma indeks o jeden większy
