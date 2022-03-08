@@ -12,6 +12,20 @@ $a->Array = [1=>'a',10=>'b','x'=>'c'];//tablica mieszana
 ```php
 $a = new Arrays(1,2,3,5,8,13);  //tylko jako lista
 ```
+# metody
+* -> arrayType()<br>
+zwraca typ tablicy (indeksowana/asocjacyjna/mieszana)
+```php
+$i = new Arrays(1,2,3);
+$i->arrayType();    //"indexed"
+$i2 = new Arrays(1=>10,5=>2,15=>321);
+$i2->arrayType()    //"indexed"
+$a = new Arrays('a'=>1,'b'=>10,'c'=>123);
+$a->arrayType()     //"associative"
+$m = new Arrays(1,'b'=>10,1=>123);
+$m->arrayType()     //"mixed"
+```
+$a
 # -> each
 * -> add( int *$x* )<br>
 umożliwia dodanie liczby *$x* do każdego elementu tablicy
