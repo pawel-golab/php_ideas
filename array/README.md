@@ -55,3 +55,17 @@ $a = new Arrays(8,64,8000);
 $a->each->rt(3);
 //result: [2,4,20]
 ```
+* -> mod( int *$x* )<br>
+umożliwia obliczenie reszty z dzielenia każdego elementu tablicy przez *$x* 
+```php
+$a = new Arrays(1,5,9);
+$a->each->mod(3);
+//result: [1,2,0]
+```
+* -> comp()<br>
+umożliwia obliczenie różnicy pomiędzy najbliższą potęgą 10 a każdym elementem tablicy 
+```php
+$a = new Arrays(7,68,999);
+$a->each->comp();
+//result: [3,32,1]
+```
