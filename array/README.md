@@ -25,7 +25,20 @@ $a->arrayType()     //"associative"
 $m = new Arrays(1,'b'=>10,1=>123);
 $m->arrayType()     //"mixed"
 ```
-$a
+* -> type()<br>
+zwraca typ danych w tablicy (o ile jest jednolity)
+```php
+$i = new Arrays(1,5,12);
+$i->type()    //"integer"
+$d = new Arrays(.0,2e3,3.14);
+$d->type()    //"double"
+$s = new Arrays(1 . 2, 'abc', 'word');
+$s->type()    //"string"
+$a = new Arrays([1,2],['a','b'],[['x'],['y']]);
+$a->type()    //"array"
+$m = new Arrays(100,0.333,'text',false);
+$a->type()    //"mixed"
+```
 # -> each
 * -> add( int *$x* )<br>
 umożliwia dodanie liczby *$x* do każdego elementu tablicy
