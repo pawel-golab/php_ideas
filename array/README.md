@@ -48,12 +48,17 @@ $a = new Arrays(2,4,20);
 $a->each->pow(3);
 //result: [8,64,8000]
 ```
-* -> rt( int *$x* )<br>
+* -> rt( int *$x* = 2 )<br>
 umożliwia obliczenie pierwiastka *$x*-tego stopnia dla każdego elementu tablicy
 ```php
 $a = new Arrays(8,64,8000);
 $a->each->rt(3);
-//result: [2,4,20]
+* -> sqrt()<br>
+umożliwia obliczenie pierwiastka kwadratowego dla każdego elementu tablicy
+```php
+$a = new Arrays(9,64,400);
+$a->each->sqrt();
+//result: [3,16,20]
 ```
 * -> mod( int *$x* )<br>
 umożliwia obliczenie reszty z dzielenia każdego elementu tablicy przez *$x* 
