@@ -41,3 +41,17 @@ $a = new Arrays(2,4,20);
 $a->each->div(2);
 //result: [1,2,10]
 ```
+* -> pow( int *$x* )<br>
+umożliwia podniesienie każdego elementu tablicy do *$x*-tej potęgi
+```php
+$a = new Arrays(2,4,20);
+$a->each->pow(3);
+//result: [8,64,8000]
+```
+* -> rt( int *$x* )<br>
+umożliwia obliczenie pierwiastka *$x*-tego stopnia dla każdego elementu tablicy
+```php
+$a = new Arrays(8,64,8000);
+$a->each->rt(3);
+//result: [2,4,20]
+```
